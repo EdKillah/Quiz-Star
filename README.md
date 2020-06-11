@@ -4,7 +4,7 @@
 
 Quiz Star es un proyecto de la materia ARSW (Arquitectura de Software) el cual comenzará con su implementación en el periodo 2020-I.
 
-Quiz Star está basado en la aplicación móvil de quicez **"QuizUp"** en la cual hay diversos temas de interés los cuales cuentan con una gran variedad de preguntas para ser respondidos por los usuarios en partidas individuales entre dos usuarios.
+Quiz Star está basado en la aplicación móvil de quicez **[QuizUp](https://www.quizup.com/es)** en la cual hay diversos temas de interés los cuales cuentan con una gran variedad de preguntas para ser respondidos por los usuarios en partidas individuales entre dos usuarios.
 
 ## Tematica de juego:
 
@@ -13,6 +13,28 @@ Un usuario escoge un tema en específico sobre el que se realizarán las pregunt
 ## **¿Qué innovaciones aporta QuizStar?**
 
 Cómo se indicó anteriormente QuizUp es una aplicación móvil y a pesar de que cuenta con una aplicación web esta solo sirve para escoger temas de interés e interactuar con otros usuarios por medio de un chat. **QuizStar está pensado para ser una aplicación web** en la cual se ejecute de forma similar a como lo hace la aplicación móvil, además de esto cuenta con la extensión de **crear temas nuevos personalizados y la adición de preguntas a un tema existente** junto con la **votación de los temas para tener una clasificación de popularidad de estos.** Por último se **adiciona un torneo amistoso** en el cual se otorga una recompensa al ganador, los torneos deben contener minimo a 3 usuarios.
+
+## Diseño de la aplicación
+
+A continuación se mostrarán algunas imagenes que sirven de maqueta de la aplicación web, estas muestran la información básica que contendrá la página sin tantos detalles.
+
+### Login
+![](resources/login.PNG)
+
+### Perfil usuario
+![](resources/perfil.PNG)
+
+### Página de los temas
+![](resources/tema.PNG)
+
+### Vista del torneo
+![](resources/torneo.PNG)
+
+
+
+
+## Historias de usuario
+
 
 ### 1. Registro de usuarios
 
@@ -107,9 +129,9 @@ COMO Usuario QUIERO votar por un tema específico PARA PODER mostrar mi apoyo al
 
 - Se debe mostrar la cantidad de votos totales que tiene el tema.
 
-### 8. Conocer los temas más votados
+### 8. Consultar los temas más votados
 
-COMO Usuario QUIERO conocer los temas más votados PARA PODER ver cuáles son los temas de mayor interes y responder sus preguntas.
+COMO Usuario QUIERO consultar los temas más votados PARA PODER ver cuáles son los temas de mayor interes y responder sus preguntas.
 
 **Criterios de aceptación:**
 
@@ -164,6 +186,10 @@ COMO Usuario QUIERO iniciar una torneo amistoso PARA PODER competir contra otros
 
 - Al ganador del torneo se le otorga un comodín como recompensa.
 
+
+## Acceso a QuizUp
+
+[QuizUp](https://www.quizup.com/es) - Página web de la aplicación.
 
 ## Authors
 
