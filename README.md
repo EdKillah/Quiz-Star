@@ -28,7 +28,20 @@ A continuación se mostrarán algunas imagenes que sirven de maqueta de la aplic
 ![](resources/tema.PNG)
 
 ### Vista del torneo
-![](resources/torneo.PNG)
+![](resources/torneo.png)
+
+
+## Diagramas de casos de uso
+
+A continuación se presentan dos diagramas de la aplicación los cuales estan relacionados con el crud de Temas y el crud de Partidas.
+
+Caso de uso Temas:
+
+![](resources/temadiagrama.png)
+
+Caso de uso Partidas:
+
+![](resources/partida.png)
 
 
 
