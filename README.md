@@ -37,11 +37,11 @@ A continuación se presentan dos diagramas de la aplicación los cuales estan re
 
 Caso de uso Temas:
 
-![](resources/temadiagrama.png)
+![](resources/temadiagrama.PNG)
 
 Caso de uso Partidas:
 
-![](resources/partida.png)
+![](resources/partida.PNG)
 
 
 
