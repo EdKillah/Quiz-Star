@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import edu.escuelaing.arsw.springboot.app.models.dao.IPreguntaDao;
 import edu.escuelaing.arsw.springboot.app.models.dao.IUsuarioDao;
+import edu.escuelaing.arsw.springboot.app.models.services.IPreguntaService;
 
 @Controller
 public class IndexController {
@@ -14,14 +15,15 @@ public class IndexController {
 	@Autowired
 	private IUsuarioDao usuarioDao;
 	@Autowired
-	private IPreguntaDao preguntaDao;
+	private IPreguntaService preguntaDao;
 
 	@GetMapping({ "/index", "", "/", "play" })
 	public String enJuego(Model model) {
 		model.addAttribute("titulo", "Partida en juego.");
+		
 		if(preguntaDao.buscarPregunta(1) != null) {
 			System.out.println("Si lo encontro pero esta trabado");
-			model.addAttribute("pregunta", preguntaDao.buscarPregunta(1));
+			model.addAttribute("preguntas", preguntaDao.preguntasRandom());
 		}
 		else {
 			System.out.println("Pregunta no encontrada");

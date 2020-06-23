@@ -87,26 +87,3 @@ function clearStatusClass(element){
 }
 
 
-const questions = [
-
-	
-    {
-        question: message,
-        answers: [
-            {text: opcion1, correct: correcta==1? true:false},
-            {text: opcion2, correct: correcta==2? true:false},
-            {text: opcion3, correct: correcta==3? true:false},
-            {text: opcion4, correct: correcta==4? true:false}
-            
-        ]
-    },
-    {
-        question: 'Quién no es un Yonko?',
-        answers: [
-            {text: 'Shanks', correct: false},
-            {text: 'Buggy', correct: true},
-            {text: 'Big Mom', correct: false},
-            {text: 'Shirohige', correct: false}
-        ]
-    }
-]

@@ -8,25 +8,6 @@
 </head>
 <body>
 
-	<div id="matriz" name="matriz" class="hide">
-
-		<div id="objeto" th:object="${pregunta}" class="hide">
-			
-			<div id="enunciado"  th:text="${pregunta.enunciado}" class="hide"></div>
-			<div id="opcion1" th:text="${pregunta.opcion1}" class="hide"></div>
-			<div id="opcion2" th:text="${pregunta.opcion2}" class="hide"></div>
-			<div id="opcion3" th:text="${pregunta.opcion3}" class="hide"></div>
-			<div id="opcion4" th:text="${pregunta.opcion4}" class="hide"></div>
-			<div id="correcta" th:text="${pregunta.correcta}" class="hide"></div>
-			
-
-
-		</div>
-
-
-	</div>
-
-
 	<div class="container">
 		<div id="question-container" class="hide">
 			<div id="question">Question</div>
@@ -42,13 +23,24 @@
 			<button id="next-btn" class="next-btn btn hide">Next</button>
 		</div>
 	</div>
-	<script>
-	var message = "[[${pregunta.enunciado}]]"; console.log(message);
-	var opcion1 = "[[${pregunta.opcion1}]]";
-	var opcion2 = "[[${pregunta.opcion2}]]";
-	var opcion3 = "[[${pregunta.opcion3}]]";
-	var opcion4 = "[[${pregunta.opcion4}]]";
-	var correcta = [[${pregunta.correcta}]]; console.log(correcta);
+	
+	<script th:inline="javascript">
+	const questions = [];
+		var preguntas = [[${preguntas}]];
+		for(var i=0;i<[[${preguntas.size()}]];i++){
+		    questions.push({
+		        question: preguntas[i].enunciado,
+		        answers: [
+		            {text: preguntas[i].opcion1, correct: preguntas[i].correcta==1? true:false},
+		            {text: preguntas[i].opcion2, correct: preguntas[i].correcta==2? true:false},
+		            {text: preguntas[i].opcion3, correct: preguntas[i].correcta==3? true:false},
+		            {text: preguntas[i].opcion4, correct: preguntas[i].correcta==4? true:false}
+		            
+		        ]
+		    });	
+	
+		}
+		
 	</script>
 	<script th:src="@{/javascript.js}"></script>
 </body>
