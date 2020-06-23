@@ -12,7 +12,11 @@ public class Tema {
 	private String eslogan;
 	
 	private List<Pregunta> preguntas;
+	
+	private String usuario;
 
+	private String foto;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -44,6 +48,15 @@ public class Tema {
 	public void setPreguntas(List<Pregunta> preguntas) {
 		this.preguntas = preguntas;
 	}
+
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	
 	
 	
 	
