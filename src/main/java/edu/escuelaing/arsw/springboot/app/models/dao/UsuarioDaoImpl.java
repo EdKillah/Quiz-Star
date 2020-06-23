@@ -40,6 +40,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	@Transactional
 	public Usuario buscarUsuario(String username) {
 		return em.find(Usuario.class, username);
+		
 	}
 
 	@Override

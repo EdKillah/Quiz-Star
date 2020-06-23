@@ -86,12 +86,17 @@ function clearStatusClass(element){
     element.classList.remove('wrong')
 }
 
+
 const questions = [
+
+	
     {
-        question: 'What is 2 +2?',
+        question: message,
         answers: [
-            {text: '4', correct: true},
-            {text: '22', cottect: false}
+            {text: opcion1, correct: correcta==1? true:false},
+            {text: opcion2, correct: correcta==2? true:false},
+            {text: opcion3, correct: correcta==3? true:false},
+            {text: opcion4, correct: correcta==4? true:false}
             
         ]
     },
