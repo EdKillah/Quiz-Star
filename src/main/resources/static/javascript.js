@@ -54,22 +54,23 @@ function showQuestion(question){
 }
 
 function selectAnswer(e){
-    //alert("no entra"+e);
-	console.log("entrando en selectAnswer: "+e);
+    
     const selectedButton = e.target
-    //alter("e.target: "+e.target);
-    console.log("entrando en selectAnswer: "+selectedButton);
+    
     const correct = selectedButton.dataset.correct
-    console.log("CORRECT: "+correct);
+    
     setStatusClass(document.body, correct)
-    console.log("Respuestas: "+answerButtonsElement.children);
+    
     Array.from(answerButtonsElement.children).forEach(button =>{
-    	console.log("buton: "+button);
+    	
         setStatusClass(button, button.dataset.correct)
     })
-    while(answerButtonsElement.firstChild){
-        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-    }
+    // El siguiente forEach me elimina la opción de darle click a otro boton una
+	// vez se presiono sobre uno
+    Array.from(answerButtonsElement.children).forEach(button =>{
+    	 button.removeEventListener('click', selectAnswer);
+    })
+ 
     if(shuffleQuestions.length > currentQuestionIndex +1){
         nextButton.classList.remove('hide')
     } 
@@ -82,7 +83,7 @@ function selectAnswer(e){
 
 function setStatusClass(element, correct){
     clearStatusClass(element)
-    //alert(correct);
+    
     if(correct){
         element.classList.add('correct')
     }
