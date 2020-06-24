@@ -47,19 +47,29 @@ function showQuestion(question){
         if(answer.correct){
             button.dataset.correct = answer.correct
         }
-        button.addEventListener('click', selectAnswer)
+        button.addEventListener('click', selectAnswer,{once:true})
         answerButtonsElement.appendChild(button)
+        
     })
 }
 
 function selectAnswer(e){
     //alert("no entra"+e);
+	console.log("entrando en selectAnswer: "+e);
     const selectedButton = e.target
+    //alter("e.target: "+e.target);
+    console.log("entrando en selectAnswer: "+selectedButton);
     const correct = selectedButton.dataset.correct
+    console.log("CORRECT: "+correct);
     setStatusClass(document.body, correct)
+    console.log("Respuestas: "+answerButtonsElement.children);
     Array.from(answerButtonsElement.children).forEach(button =>{
+    	console.log("buton: "+button);
         setStatusClass(button, button.dataset.correct)
     })
+    while(answerButtonsElement.firstChild){
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+    }
     if(shuffleQuestions.length > currentQuestionIndex +1){
         nextButton.classList.remove('hide')
     } 

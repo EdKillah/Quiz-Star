@@ -16,8 +16,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 import edu.escuelaing.arsw.springboot.app.models.dao.IUsuarioDao;
+import edu.escuelaing.arsw.springboot.app.models.entities.Pregunta;
 import edu.escuelaing.arsw.springboot.app.models.entities.Tema;
 import edu.escuelaing.arsw.springboot.app.models.services.IPreguntaService;
 import edu.escuelaing.arsw.springboot.app.models.services.ITemaService;
@@ -84,20 +84,20 @@ public class IndexController {
 	@RequestMapping(value = "/crear_tema", method = RequestMethod.POST)
 	public String guardar(Tema tema, Model model, @RequestParam("file") MultipartFile foto, RedirectAttributes flash,
 			SessionStatus status) {
-		
+
 		if (!foto.isEmpty()) {
-	
+
 			String rootPath = "C://Temp//quizz_star";
 			try {
 				byte[] bytes = foto.getBytes();
 				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
 				Files.write(rutaCompleta, bytes);
 				flash.addFlashAttribute("info", "Ha subido correctamente " + foto.getOriginalFilename());
-				tema.setId(temaService.buscarTemas().size()+1);
+				tema.setId(temaService.buscarTemas().size() + 1);
 				tema.setFoto(foto.getOriginalFilename());
-		
+
 			} catch (IOException e) {
-		
+
 				e.printStackTrace();
 			}
 		}
@@ -105,6 +105,42 @@ public class IndexController {
 		flash.addFlashAttribute("success", "Tema creado con exito.");
 		status.setComplete();
 		return "redirect:temas";
+	}
+
+	@RequestMapping(value = "/crear_preguntas", method = RequestMethod.GET)
+	public String crearPregunta(Model model) {
+		Pregunta pregunta = new Pregunta();
+		model.addAttribute("titutlo", "Formulario de tema");
+		model.addAttribute("pregunta", pregunta);
+		return "crear_preguntas";
+
+	}
+
+	@RequestMapping(value = "/crear_preguntas", method = RequestMethod.POST)
+	public String guardarPregunta(Pregunta pregunta, Model model, @RequestParam("file") MultipartFile foto,
+			RedirectAttributes flash, SessionStatus status) {
+
+		if (!foto.isEmpty()) {
+
+			String rootPath = "C://Temp//quizz_star";
+			try {
+				byte[] bytes = foto.getBytes();
+				Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+				Files.write(rutaCompleta, bytes);
+				flash.addFlashAttribute("info", "Ha subido correctamente " + foto.getOriginalFilename());
+
+				pregunta.setFoto(foto.getOriginalFilename());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	
+		
+		pregunta.setId(preguntaDao.buscarPreguntas().size() + 1);
+		preguntaDao.guardarPregunta(pregunta);
+		flash.addFlashAttribute("success", "Pregunta creada con exito.");
+		status.setComplete();
+		return "redirect:preguntas";
 	}
 
 }

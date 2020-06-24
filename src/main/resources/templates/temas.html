@@ -39,7 +39,9 @@
 						<li class="list-group-item" th:text="${tema.eslogan}"></li>
 						<li class="list-group-item" th:text="${tema.usuario}"></li>
 						<li class="list-group-item" th:text="${tema.foto}"></li>
-
+						<li class="list-group-item"><a class="btn btn-success btn-xs"
+							th:href="@{/crear_preguntas/} + ${tema.id}"
+							th:text="'agregar preguntas'"></a></li>
 					</ul>
 
 				</div>

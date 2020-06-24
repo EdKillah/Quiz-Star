@@ -18,7 +18,7 @@ public class Pregunta {
 	@Id
 	private Integer id;
 	
-	private String tema; //revisar esta linea si deberia ser un string  o Tema
+	private Integer tema; //revisar esta linea si deberia ser un string  o Tema
 	
 	private String enunciado;
 	
@@ -46,11 +46,11 @@ public class Pregunta {
 		this.id = id;
 	}
 
-	public String getTema() {
+	public Integer getTema() {
 		return tema;
 	}
 
-	public void setTema(String tema) {
+	public void setTema(Integer tema) {
 		this.tema = tema;
 	}
 
