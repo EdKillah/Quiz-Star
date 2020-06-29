@@ -7,6 +7,7 @@ const questionContainerElement = document.getElementById("question-container")
 let shuffleQuestions, currentQuestionIndex
 const questionElement = document.getElementById('question')
 const answerButtonsElement =  document.getElementById('answer-buttons')
+const questionImage = document.getElementById("img-question")
 
 startButton.addEventListener('click',startGame)
 nextButton.addEventListener('click',() => {
@@ -40,6 +41,14 @@ function resetState(){
 
 function showQuestion(question){
     questionElement.innerText = question.question;
+    console.log(question.imagen);
+    if(question.imagen != null){
+    	questionImage.classList.remove('hide');
+    	questionImage.src = "/quizz_star/" + question.imagen
+    }
+    else{
+    	questionImage.classList.add('hide');	
+    }
     question.answers.forEach(answer => {
         const button = document.createElement('button')
         button.innerText = answer.text

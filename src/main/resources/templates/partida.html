@@ -11,8 +11,8 @@
 	<div class="container">
 		<div id="question-container" class="hide">
 			<div id="question">Question</div>
-			<img id="img-question" class="img-thumbnail rounded float-left"
-						style="max-width: 25%; margin:auto;" th:src="@{'/quizz_star/' + 6.jpg}" />
+			<img id="img-question" 
+						style="max-width: 25%;  margin-left:auto;  margin-right:auto;"  />
 			<div id="answer-buttons" class="btn-grid">
 				<button class="btn">Answer 1</button>
 				<button class="btn">Answer 2</button>
@@ -38,7 +38,8 @@
 		            {text: preguntas[i].opcion3, correct: preguntas[i].correcta==3? true:false},
 		            {text: preguntas[i].opcion4, correct: preguntas[i].correcta==4? true:false}
 		            
-		        ]
+		        ],
+		        imagen: preguntas[i].foto
 		    });	
 	
 		}

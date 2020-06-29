@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,13 +33,14 @@ public class IndexController {
 	@Autowired
 	private ITemaService temaService;
 
-	@GetMapping({ "/index", "", "/", "play" })
-	public String enJuego(Model model) {
+	@GetMapping({ "/index", "", "/", "play/{id}" })
+	public String enJuego(@PathVariable(value="id")Integer id,Model model) {
 		model.addAttribute("titulo", "Partida en juego.");
-
-		if (preguntaDao.buscarPregunta(1) != null) {
+		
+		if (preguntaDao.buscarPregunta(id) != null) {
 			System.out.println("Si lo encontro pero esta trabado");
-			model.addAttribute("preguntas", preguntaDao.preguntasRandom());
+			//model.addAttribute("preguntas", preguntaDao.preguntasRandom());
+			model.addAttribute("preguntas",preguntaDao.buscarPreguntasTema(id));
 		} else {
 			System.out.println("Pregunta no encontrada");
 
@@ -56,6 +58,7 @@ public class IndexController {
 	@GetMapping("/preguntas")
 	public String preguntas(Model model) {
 		model.addAttribute("titulo", "Preguntas de Quiz-Star");
+		
 		if (preguntaDao.buscarPreguntas() != null) {
 			model.addAttribute("preguntas", preguntaDao.buscarPreguntas());
 		} else {

@@ -16,5 +16,7 @@ public interface IPreguntaService {
 	public void eliminarPregunta(Integer id);
 	
 	public ArrayList<Pregunta> preguntasRandom();
+	
+	public List<Pregunta> buscarPreguntasTema(Integer tema);
 
 }

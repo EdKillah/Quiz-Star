@@ -27,7 +27,6 @@ public class PreguntaServiceImpl implements IPreguntaService {
 		while(i<3) {
 			numAleatorio = r.nextInt(size)+1;
 			if(!numeros.contains(numAleatorio)) {
-				//System.out.println("No esta en lista");
 				System.out.println("Enunciado: "+lista.get(numAleatorio-1).getEnunciado());
 				numeros.add(numAleatorio);
 				i++;
@@ -44,9 +43,15 @@ public class PreguntaServiceImpl implements IPreguntaService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public List<Pregunta> buscarPreguntas() {
-		
+	public List<Pregunta> buscarPreguntas() {		
 		return preguntaDao.buscarPreguntas();
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Pregunta> buscarPreguntasTema(Integer tema) {
+		
+		return preguntaDao.buscarPreguntasTema(tema);
 	}
 
 	@Override

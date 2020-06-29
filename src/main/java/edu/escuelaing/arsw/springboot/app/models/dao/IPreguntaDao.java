@@ -13,4 +13,6 @@ public interface IPreguntaDao {
 	public Pregunta buscarPregunta(Integer id);
 
 	public void eliminarPregunta(Integer id);
+	
+	public List<Pregunta> buscarPreguntasTema(Integer tema); //List<Pregunta> 
 }

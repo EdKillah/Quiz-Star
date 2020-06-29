@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 
 import org.springframework.stereotype.Repository;
 
@@ -38,6 +40,17 @@ public class PreguntaDaoImpl implements IPreguntaDao {
 	@Override
 	public void eliminarPregunta(Integer id) {
 		em.remove(buscarPregunta(id));
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pregunta> buscarPreguntasTema(Integer tema) {
+        String queryStr = "select * from preguntas where tema = ?1";
+        Query query = em.createNativeQuery(queryStr,Pregunta.class);
+        query.setParameter(1, tema);
+        return query.getResultList();
+		
+
 
 	}
 
