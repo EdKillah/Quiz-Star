@@ -24,8 +24,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 		.antMatchers("/","/css/**","/js/**","/index","/play/**","/crear_preguntas","/crear_tema").permitAll()
-		.antMatchers("/preguntas","/temas","/usuarios").hasAnyRole("USER");
+		.antMatchers("/preguntas","/temas","/usuarios").hasAnyRole("USER")
+		.antMatchers("/uploads/**").hasAnyRole("USER")
+		.anyRequest().authenticated()
+		.and()
+		.formLogin().loginPage("/login")
+		.permitAll()
+		.and()
+		.logout().permitAll();
 	}
+	
 
 	@Autowired
 	public void configurerGlobal(AuthenticationManagerBuilder builder) throws Exception {

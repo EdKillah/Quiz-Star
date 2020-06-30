@@ -9,14 +9,11 @@
 	crossorigin="anonymous">
 </head>
 <body>
-<header>
-<h1 class="text-success" th:text="${titulo}"></h1>
-</header>
+	<header th:replace="layout/layout :: header"></header>
 
-<div class="container">
-		<!--   <h1  th:text="${titulo}"></h1>-->
 
-		<!--   <a th:href="@{/form}">Crear cliente</a>-->
+	<div class="container">
+
 		<table class="table">
 			<thead>
 				<tr>
@@ -35,7 +32,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="pregunta: ${preguntas}">
-					
+
 					<td th:text="${pregunta.id}"></td>
 					<td th:text="${pregunta.tema}"></td>
 					<td th:text="${pregunta.enunciado}"></td>
@@ -63,6 +60,6 @@
 	<script
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
 		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-		crossorigin="anonymous"></script>	
+		crossorigin="anonymous"></script>
 </body>
 </html>

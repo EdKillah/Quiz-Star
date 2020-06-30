@@ -33,7 +33,7 @@ public class IndexController {
 	@Autowired
 	private ITemaService temaService;
 
-	@GetMapping({ "/index", "", "/", "play/{id}" })
+	@GetMapping({"play/{id}"})
 	public String enJuego(@PathVariable(value="id")Integer id,Model model) {
 		model.addAttribute("titulo", "Partida en juego.");
 		

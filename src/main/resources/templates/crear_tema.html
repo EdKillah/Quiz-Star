@@ -10,6 +10,8 @@
 </head>
 <body>
 
+	<header th:replace="layout/layout :: header"></header>
+
 	<h1 class="text-primary" th:text="${titulo}"></h1>
 
 	<form th:action="@{/crear_tema}" th:object="${tema}" method="post"

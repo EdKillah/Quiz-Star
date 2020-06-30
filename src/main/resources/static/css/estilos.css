@@ -43,7 +43,7 @@ body.wrong {
 .btn-grid {
     display: grid;
     gap: 10px;
-    margin: 20px;
+    margin: 20xp;
 }
 
 .btn {
