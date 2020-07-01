@@ -47,6 +47,11 @@ public class IndexController {
 		}
 		return "partida";
 	}
+	
+	@GetMapping({"/",""})
+	public String alIniciar() {
+		return "redirect:/temas";
+	}
 
 	@GetMapping("/usuarios")
 	public String usuarios(Model model) {
