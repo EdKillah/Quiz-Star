@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title th:text=${titulo}></title>
-<link href="../static/css/estilos.css" th:href="@{/css/estilos.css}"
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+	<link href="../static/css/estilos.css" th:href="@{/css/estilos.css}"
 	rel="stylesheet" />
+	
 </head>
 <body>
-
+	
 	<div class="container">
 		<div id="question-container" class="hide">
 			<div id="question" class="question">Question</div>
-			<img id="img-question" 
+			<img id="img-question" class="img-question"
 						style="max-width: 25%;  margin-left:auto;  margin-right:auto;"  />
 			<div id="answer-buttons" class="btn-grid">
 				<button class="btn">Answer 1</button>

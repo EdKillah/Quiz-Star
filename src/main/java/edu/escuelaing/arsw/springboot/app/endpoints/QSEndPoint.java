@@ -3,7 +3,6 @@ package edu.escuelaing.arsw.springboot.app.endpoints;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
@@ -13,6 +12,10 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 
@@ -20,11 +23,12 @@ import org.springframework.stereotype.Component;
 @ServerEndpoint("/qsService")
 public class QSEndPoint {
 
+	private int puntaje=0;
 
     private static final Logger logger = Logger.getLogger(QSEndPoint.class.getName());
     /* Queue for all open WebSocket sessions */
     static Queue<Session> queue = new ConcurrentLinkedQueue<>();
-    static HashMap<Session,String> lista = new HashMap<>();
+    //static HashMap<Session,String> lista = new HashMap<>();
 
     Session ownSession = null;
 
@@ -52,54 +56,40 @@ public class QSEndPoint {
 
     @OnMessage
     public void processPoint(String message, Session session) {
-    	logger.log(Level.INFO, "Point received:" + message + ". From session: " + session);
-    	System.out.println("Esta enviando este mensaje desde el server: "+message);
-    	System.out.println("Esta es la lista: "+lista.toString());
-    	System.out.println("Estos rangos: "+message.substring(message.length()-3, message.length()-1));
-    	if(lista.get(session).equals("xx")) {
-    		System.out.println("Ultima ficha enviada un xx");
-    		if(message.substring(message.length()-3, message.length()-1).equals("xx")) {
-    			this.send(message);	
-    		}
-    		else {
-    			System.out.println("En else de xx");
-    			this.send(message);
-    		}
-    		
-    	}
-    	else if (lista.get(session).equals("oo")){
-    		System.out.println("Ultima ficha enviada un oo: "+lista.get(session));
-    		if(message.substring(message.length()-3, message.length()-1).equals("oo")) {
-    			this.send(message);	
-    		}
-    		else {
-    			System.out.println("En else de xx");
-    			this.send(message);
-    		}
-    	}
-    	else {
-    		System.out.println("Entra en else");
-    	}
-        //this.send(message);
+    	System.out.println("Mensaje: "+message);
+    	try
+        {
+            JSONObject mensaje = new JSONObject(message);
+            System.out.println("Esta enviando este mensaje desde el server: "+mensaje);
+            if(mensaje.get("x") instanceof String) {
+            	System.out.println("Es un string y se va a totear");
+            	
+            }
+            Integer valor = Integer.parseInt(mensaje.get("x").toString());
+            //puntaje+=mensaje.get("x");
+            puntaje += valor;
+            System.out.println("Los puntos: "+mensaje.get("x"));
+            System.out.println("La ronda: "+mensaje.get("y"));
+            System.out.println("Los puntos actuales son: "+puntaje);
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+    	
+    	logger.log(Level.INFO, "Point received:" + message + ". From session: " + session);    	
+        this.send(message);
     }
 
     @OnOpen
     public void openConnection(Session session) {
         /* Register this connection in the queue */
+    	System.out.println("Entrando en openConection: "+session);
         queue.add(session);
         ownSession = session;
         logger.log(Level.INFO, "Connection opened.");
         try {
-        	if(queue.size()%2==0) {
-        		lista.put(session, "xx");
-        		session.getBasicRemote().sendText("xx");
-        	}
-        	else {
-        		lista.put(session, "oo");
-        		session.getBasicRemote().sendText("oo");
-        	}
-        	//session.getBasicRemote().;
             session.getBasicRemote().sendText("Connection established.");
+            System.out.println("La lista de sesiones: "+queue);
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
