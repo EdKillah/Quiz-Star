@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Temas</title>
+<title>Los más votados.</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
@@ -10,11 +10,20 @@
 </head>
 <body>
 
+	
 	<header th:replace="layout/layout :: header"></header>
-
+	<h1>Los temas más votados.</h1>
 	<div class="container">
-		<p>Esta aca el numero de votos totales</p>	
-		<div th:text="${votos_totales}"></div>
+
+		<div>
+			<a class="btn btn-primary btn-xs" th:text="Ascedente"
+				th:href="@{/populares/} +  asc"></a>
+		</div>
+
+		<div>
+			<a class="btn btn-success btn-xs" th:text="Descendente"
+				th:href="@{/populares/} +  desc"></a>
+		</div>
 
 		<div th:each="tema: ${temas}" class="container py-4">
 
@@ -31,18 +40,20 @@
 						<li class="list-group-item" th:text="${tema.eslogan}"></li>
 						<li class="list-group-item" th:text="${tema.usuario}"></li>
 						<li class="list-group-item" th:text="${tema.foto}"></li>
-						<li class="list-group-item" th:txt="${votos_totales}"></li>
+						
 						<li class="list-group-item"><a class="btn btn-success btn-xs"
 							th:href="@{/crear_preguntas/}" th:text="'agregar preguntas'"></a></li>
 						<li class="list-group-item"><a class="btn btn-success btn-xs"
 							th:href="@{/play/} + ${tema.id}" th:text="'Jugar'"></a></li>
-						<li class="list-group-item"><a
-								class="btn btn-primary btn-xs" th:text="Votar + ${tema.id}"
-								th:href="@{/votar/} +  ${tema.id}" ></a></li>
+						<li class="list-group-item"><a class="btn btn-primary btn-xs"
+							th:text="Votar +' '+ ${tema.id}" th:href="@{/votar/} +  ${tema.id}"></a>
+							<a class="btn btn-success btn-xs"
+							th:text="Seguir" th:href="@{/seguir/} +  ${tema.id}"></a>
+						</li>
 
 					</ul>
 
-					
+
 
 
 				</div>
@@ -51,21 +62,10 @@
 
 		</div>
 
-		
+
 
 	</div>
 
 
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-		crossorigin="anonymous"></script>
 </body>
 </html>

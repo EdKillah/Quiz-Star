@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import edu.escuelaing.arsw.springboot.app.models.dao.IUsuarioDao;
 import edu.escuelaing.arsw.springboot.app.models.entities.Pregunta;
 import edu.escuelaing.arsw.springboot.app.models.entities.Tema;
+import edu.escuelaing.arsw.springboot.app.models.entities.Interes;
+import edu.escuelaing.arsw.springboot.app.models.services.IPopularidadService;
 import edu.escuelaing.arsw.springboot.app.models.services.IPreguntaService;
 import edu.escuelaing.arsw.springboot.app.models.services.ITemaService;
 
 @Controller
 public class IndexController {
+
+	private List<Tema> temasOrdenados;
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -32,23 +37,24 @@ public class IndexController {
 	private IPreguntaService preguntaDao;
 	@Autowired
 	private ITemaService temaService;
+	@Autowired
+	private IPopularidadService popularidadService;
 
-	@GetMapping({"play/{id}"})
-	public String enJuego(@PathVariable(value="id")Integer id,Model model) {
-		model.addAttribute("titulo", "Partida en juego.");
-		
-		if (preguntaDao.buscarPregunta(id) != null) {
-			System.out.println("Si lo encontro pero esta trabado");
-			//model.addAttribute("preguntas", preguntaDao.preguntasRandom());
-			model.addAttribute("preguntas",preguntaDao.buscarPreguntasTema(id));
-		} else {
-			System.out.println("Pregunta no encontrada");
+	/*
+	 * @GetMapping({"play/{id}"}) public String
+	 * enJuego(@PathVariable(value="id")Integer id,Model model) {
+	 * model.addAttribute("titulo", "Partida en juego.");
+	 * 
+	 * if (preguntaDao.buscarPregunta(id) != null) {
+	 * System.out.println("Si lo encontro pero esta trabado");
+	 * //model.addAttribute("preguntas", preguntaDao.preguntasRandom());
+	 * model.addAttribute("preguntas",preguntaDao.buscarPreguntasTema(id)); } else {
+	 * System.out.println("Pregunta no encontrada");
+	 * 
+	 * } return "partida"; }
+	 */
 
-		}
-		return "partida";
-	}
-	
-	@GetMapping({"/",""})
+	@GetMapping({ "/", "" })
 	public String alIniciar() {
 		return "redirect:/temas";
 	}
@@ -63,7 +69,7 @@ public class IndexController {
 	@GetMapping("/preguntas")
 	public String preguntas(Model model) {
 		model.addAttribute("titulo", "Preguntas de Quiz-Star");
-		
+
 		if (preguntaDao.buscarPreguntas() != null) {
 			model.addAttribute("preguntas", preguntaDao.buscarPreguntas());
 		} else {
@@ -77,6 +83,11 @@ public class IndexController {
 		model.addAttribute("titulo", "Detalle de los temas");
 		model.addAttribute("temas", temaService.buscarTemas());
 		model.addAttribute("tema", temaService.buscarTema(2));
+		List<Interes> vox = popularidadService.buscarVotos();
+		System.out.println("Vox: " + vox);
+		List<Interes> votos = popularidadService.buscarVotosTema(3);
+		System.out.println(votos + " Longitud: " + vox.size());
+		model.addAttribute("votos_totales", vox.size()); // ESTO OBVIAMENTE DEBE MEJORAR
 		return "temas";
 	}
 
@@ -142,13 +153,74 @@ public class IndexController {
 				e.printStackTrace();
 			}
 		}
-	
-		
+
 		pregunta.setId(preguntaDao.buscarPreguntas().size() + 1);
 		preguntaDao.guardarPregunta(pregunta);
 		flash.addFlashAttribute("success", "Pregunta creada con exito.");
 		status.setComplete();
 		return "redirect:preguntas";
+	}
+
+	@GetMapping("/votar/{id}")
+	public String votar(@PathVariable(value = "id") Integer id, Model model) {
+		System.out.println("Entrando en votar OK " + id);
+		String usuario = "eduard21";
+		popularidadService.guardarVoto(id,usuario,true);
+		/*
+		Interes interes = new Interes();
+		interes.setTema(id);
+		interes.setSiguiendo(0);
+		interes.setUsuario("eduard21");
+		interes.setVoto(1);
+		List<Interes> votos = popularidadService.buscarVotos();
+		//int longitud = votos.get(votos.size() - 1).getId() + 1;
+		interes.setId(votos.size()+1);
+		System.out.println("Creo bien el voto a parecer");
+		*/
+		//popularidadService.guardarVoto(interes);
+		//popularidadService.guardarVoto(id,usuario);
+		return "redirect:/temas";
+	}
+
+	@GetMapping("/temas_populares")
+	public String populares(Model model) {
+		
+		//List<Voto> votos = popularidadService.buscarVotos();
+		//for(Voto voto: votos) {
+			
+		//}
+		
+		if (temasOrdenados != null) {
+			System.out.println("Es diferente de nulo");
+			model.addAttribute("temas", temasOrdenados);
+		} else {
+			model.addAttribute("temas", temaService.buscarTemas());
+			model.addAttribute("tema", temaService.buscarTema(2));
+		}
+
+		return "temas_populares";
+
+	}
+
+	@GetMapping("/populares/{orden}")
+	public String ordenar(@PathVariable(value = "orden") String orden, Model model) {
+		System.out.println("Este es el orden escogido: " + orden);
+		model.addAttribute("temas", temaService.buscarTemas());
+		model.addAttribute("tema", temaService.buscarTema(2));
+		temasOrdenados = popularidadService.buscarTemasPor(orden);
+		return "redirect:/temas_populares";
+	}
+	
+	@GetMapping("/seguir/{id}")
+	public String seguir(@PathVariable(value="id")Integer id, Model model) {
+		popularidadService.agregarSeguidor(id, "eduard21");
+		return "redirect:/temas_populares";
+	}
+
+	@GetMapping("/perfil")
+	public String perfil(Model model) {
+		model.addAttribute("nombre", "Diana");
+		return "perfil";
 	}
 
 }

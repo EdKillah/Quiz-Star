@@ -1,6 +1,8 @@
 package edu.escuelaing.arsw.springboot.app;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,5 +18,12 @@ public class MvcConfig implements WebMvcConfigurer{
 		.addResourceHandler("/quizz_star/**").addResourceLocations("file:/C:/Temp/quizz_star/");
 		
 	}
+	
+	/*
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	*/
 
 }

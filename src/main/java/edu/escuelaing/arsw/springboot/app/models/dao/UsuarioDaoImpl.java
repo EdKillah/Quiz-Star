@@ -2,6 +2,7 @@ package edu.escuelaing.arsw.springboot.app.models.dao;
 
 import java.util.List;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -36,6 +37,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 		
 	}
 
+	
 	@Override
 	@Transactional
 	public Usuario buscarUsuario(String username) {
@@ -48,5 +50,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 	public void eliminarUsuario(String username) {
 		em.remove(buscarUsuario(username));
 	}
+
+
 
 }
