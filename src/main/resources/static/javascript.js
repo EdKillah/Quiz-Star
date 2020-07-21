@@ -26,18 +26,11 @@ class WSBBChannel {
         
         if(evt.data != "Connection established.") {
         	console.log("Esta entrando en diferente de conection established");
-        	if(evt.data == "xx"){
-        		console.log("Entra en X inicial");
-        		this.xIsNext = "xx";
-        	}
-        	else if(evt.data == "oo"){
-        		console.log("Entra en O inicial");
-        		this.xIsNext = "oo";
-        	}
-        	else{
-        		console.log("El valor de ficha: ",this.xIsNext);
-            	this.receivef(evt.data);
-            }	
+        	console.log("Server: ",evt.data);
+        	puntajeElement.innerText = "Puntaje: "+evt.data;
+        	//console.log("El valor de ficha: ",this.xIsNext);
+            this.receivef(evt.data);
+            
         }
     }
     
@@ -65,6 +58,7 @@ const questionContainerElement = document.getElementById("question-container")
 
 let shuffleQuestions, currentQuestionIndex
 const questionElement = document.getElementById('question')
+const puntajeElement = document.getElementById('puntaje')
 const answerButtonsElement =  document.getElementById('answer-buttons')
 const questionImage = document.getElementById("img-question")
 
@@ -77,7 +71,7 @@ nextButton.addEventListener('click',() => {
 let comunicationWS;
 
 function startGame(){
-	alert("Comenzando juego");
+	//alert("Comenzando juego");
 	comunicationWS =
         new WSBBChannel(BBServiceURL(),
                 (msg) => {
@@ -108,6 +102,7 @@ function resetState(){
 
 function showQuestion(question){
     questionElement.innerText = question.question;
+    
     console.log("La imagen: ",question.imagen);
     if(question.imagen != null){
     	questionImage.classList.remove('hide');
@@ -116,11 +111,9 @@ function showQuestion(question){
     else{
     	questionImage.classList.add('hide');	
     }
-    let contadorr = 0;
+    
     //El foreach de acontinuacion es para mostrar las 4 opciones.
-    question.answers.forEach(answer => {
-    	//console.log("Showquestion: ",contadorr);
-    	contadorr++;
+    question.answers.forEach(answer => {    	
         const button = document.createElement('button')
         button.innerText = answer.text
         button.classList.add('btn')
@@ -139,13 +132,10 @@ function selectAnswer(e){
     
     const correct = selectedButton.dataset.correct
     console.log("pregunta actual: ",currentQuestionIndex);
-    if(correct){
-    	console.log("En condicion DE SI: ",correct);
-    	
+    if(correct){    	    
     	comunicationWS.send(20,currentQuestionIndex);
     }
-    console.log("Que es correct?: ",correct);
-    //console.log("selectedButton: ",selectedButton);
+    
     
     setStatusClass(document.body, correct)
     
@@ -164,6 +154,7 @@ function selectAnswer(e){
     } 
     else{
         startButton.innerText = "Restart";
+        startButton.onclick = location.replace("0");
         startButton.classList.remove('hide');
     }
 
@@ -172,12 +163,10 @@ function selectAnswer(e){
 function setStatusClass(element, correct){
     clearStatusClass(element)
     
-    if(correct){
-    	//console.log("Entro en el correct de statusClass",element,"correc: ",correct);
+    if(correct){    	
         element.classList.add('correct')
     }
-    else {
-    	//console.log("En cambio entro en wrong: ",element,"correc: ",correct);
+    else {    	
         element.classList.add('wrong')
     }
 }
