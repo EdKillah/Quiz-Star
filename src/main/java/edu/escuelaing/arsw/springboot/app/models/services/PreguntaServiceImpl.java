@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.escuelaing.arsw.springboot.app.models.dao.IPreguntaDao;
 import edu.escuelaing.arsw.springboot.app.models.entities.Pregunta;
-import edu.escuelaing.arsw.springboot.app.models.entities.Tema;
 
 @Service
 public class PreguntaServiceImpl implements IPreguntaService {

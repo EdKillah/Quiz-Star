@@ -1,6 +1,5 @@
 package edu.escuelaing.arsw.springboot.app.models.entities;
 
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

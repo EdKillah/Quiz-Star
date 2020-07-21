@@ -2,7 +2,6 @@ package edu.escuelaing.arsw.springboot.app.models.dao;
 
 import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
 
 import edu.escuelaing.arsw.springboot.app.models.entities.Usuario;
 

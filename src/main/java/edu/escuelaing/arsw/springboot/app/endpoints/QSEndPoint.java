@@ -2,6 +2,7 @@ package edu.escuelaing.arsw.springboot.app.endpoints;
 
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Logger;
@@ -22,17 +23,20 @@ import org.springframework.stereotype.Component;
 public class QSEndPoint {
 
 	private int puntaje = 0;
+	private int puntaje2 = 0;
 
 	private static final Logger logger = Logger.getLogger(QSEndPoint.class.getName());
 	/* Queue for all open WebSocket sessions */
 	static Queue<Session> queue = new ConcurrentLinkedQueue<>();
 	
+	static ArrayList<String> respuestas = new ArrayList<>();
+	
+	
 	Session ownSession = null;
 
 	/* Call this method to send a message to all clients */
-	public void send(String msg) {
+	public void send(String msg,String msg2) {
 		System.out.println("ESTA ENTRANDO EN EL SEND DEL SERVIDOR: " + msg);
-		//logger.log(Level.INFO, "SEND DEL SERVIDOR");
 		if (queue.size() > 1) {
 			System.out.println("El size de la lista es mayor a 1");
 		}
@@ -41,8 +45,8 @@ public class QSEndPoint {
 			System.out.println("longitud de sesiones: " + queue.size());
 			for (Session session : queue) {
 				//if (!session.equals(this.ownSession)) {
-					//System.out.println("Entra en su propio condicional así que no envia nada");
-					session.getBasicRemote().sendText(msg);
+					//System.out.println("Entra en su propio condicional así que no envia nada"); servira
+					session.getBasicRemote().sendText(msg+"-"+msg2);
 				//}
 				logger.log(Level.INFO, "Sent: {0}", msg);
 			}
@@ -57,13 +61,18 @@ public class QSEndPoint {
 		try {
 			JSONObject mensaje = new JSONObject(message);
 			System.out.println("Esta enviando este mensaje desde el server: " + mensaje);
-			Integer valor = Integer.parseInt(mensaje.get("x").toString());
-			
-			puntaje += valor;
-			
-			
+			Integer valor = Integer.parseInt(mensaje.get("x").toString());		
+			puntaje += valor;		
 			logger.log(Level.INFO, "Point received:" + message + ". From session: " + session);
-			this.send(puntaje+""); //Se enviaba el message
+			respuestas.add(puntaje+"");
+			if(respuestas.size()>1) {
+				System.out.println("Checa las respuestas: "+respuestas.toString());
+				puntaje2+=valor;
+				//this.send(puntaje+"");
+				this.send(respuestas.get(0),puntaje2+"");
+				respuestas.clear();
+			}
+			
 		} catch (JSONException e) {
 			logger.log(Level.INFO, "Error on JSON:" + message + ". From session: " + session);
 			e.printStackTrace();

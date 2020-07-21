@@ -27,7 +27,9 @@ class WSBBChannel {
         if(evt.data != "Connection established.") {
         	console.log("Esta entrando en diferente de conection established");
         	console.log("Server: ",evt.data);
-        	puntajeElement.innerText = "Puntaje: "+evt.data;
+        	let mensaje = evt.data.split("-");
+        	puntajeElement.innerText = "Puntaje: "+mensaje[0];
+        	puntaje2Element.innerText = "Puntaje2: "+mensaje[1];
         	//console.log("El valor de ficha: ",this.xIsNext);
             this.receivef(evt.data);
             
@@ -59,6 +61,7 @@ const questionContainerElement = document.getElementById("question-container")
 let shuffleQuestions, currentQuestionIndex
 const questionElement = document.getElementById('question')
 const puntajeElement = document.getElementById('puntaje')
+const puntaje2Element = document.getElementById('puntaje2')
 const answerButtonsElement =  document.getElementById('answer-buttons')
 const questionImage = document.getElementById("img-question")
 
@@ -134,6 +137,9 @@ function selectAnswer(e){
     console.log("pregunta actual: ",currentQuestionIndex);
     if(correct){    	    
     	comunicationWS.send(20,currentQuestionIndex);
+    }
+    else{
+    	comunicationWS.send(0,currentQuestionIndex);
     }
     
     
