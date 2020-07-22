@@ -23,11 +23,11 @@ import org.springframework.stereotype.Component;
 public class QSEndPoint {
 
 	private int puntaje = 0;
-	private int puntaje2 = 0;
+	private int puntaje2 = 0; //Mejorar esto porque se altera muy fácil
 
 	private static final Logger logger = Logger.getLogger(QSEndPoint.class.getName());
 	/* Queue for all open WebSocket sessions */
-	static Queue<Session> queue = new ConcurrentLinkedQueue<>();
+	public static Queue<Session> queue = new ConcurrentLinkedQueue<>();
 	
 	static ArrayList<String> respuestas = new ArrayList<>();
 	
@@ -45,7 +45,6 @@ public class QSEndPoint {
 			System.out.println("longitud de sesiones: " + queue.size());
 			for (Session session : queue) {
 				//if (!session.equals(this.ownSession)) {
-					//System.out.println("Entra en su propio condicional así que no envia nada"); servira
 					session.getBasicRemote().sendText(msg+"-"+msg2);
 				//}
 				logger.log(Level.INFO, "Sent: {0}", msg);
@@ -61,14 +60,17 @@ public class QSEndPoint {
 		try {
 			JSONObject mensaje = new JSONObject(message);
 			System.out.println("Esta enviando este mensaje desde el server: " + mensaje);
-			Integer valor = Integer.parseInt(mensaje.get("x").toString());		
+			if(mensaje.get("y").toString().equals("EMPAREJADO")) {
+				System.out.println("SI ENTRA PORQUE EMPAREJO BIEN");
+				this.send("0","0"); 
+			}
+			Integer valor = Integer.parseInt(mensaje.get("x").toString());
 			puntaje += valor;		
 			logger.log(Level.INFO, "Point received:" + message + ". From session: " + session);
 			respuestas.add(puntaje+"");
 			if(respuestas.size()>1) {
 				System.out.println("Checa las respuestas: "+respuestas.toString());
 				puntaje2+=valor;
-				//this.send(puntaje+"");
 				this.send(respuestas.get(0),puntaje2+"");
 				respuestas.clear();
 			}
@@ -101,6 +103,7 @@ public class QSEndPoint {
 		/* Remove this connection from the queue */
 		queue.remove(session);
 		logger.log(Level.INFO, "Connection closed.");
+		System.out.println("Conexiones activas de momento: "+queue.size());
 	}
 
 	@OnError

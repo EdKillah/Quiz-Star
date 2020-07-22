@@ -16,7 +16,8 @@ class WSBBChannel {
 
 
     onOpen(evt) {
-        console.log("In onOpen", evt);
+        console.log("In onOpen", evt);        
+        this.send("0", "EMPAREJADO");
     }
     onMessage(evt) {
         console.log("In onMessage", evt);
@@ -30,6 +31,10 @@ class WSBBChannel {
         	let mensaje = evt.data.split("-");
         	puntajeElement.innerText = "Puntaje: "+mensaje[0];
         	puntaje2Element.innerText = "Puntaje2: "+mensaje[1];
+        	console.log("Antes del setNextQuestion");
+        	setTimeout(setNextQuestion,3000);
+        	console.log("DESPUES del setNextQuestion");
+        	//setNextQuestion();
         	//console.log("El valor de ficha: ",this.xIsNext);
             this.receivef(evt.data);
             
@@ -52,6 +57,8 @@ class WSBBChannel {
 }
 
 
+
+
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 
@@ -65,7 +72,7 @@ const puntaje2Element = document.getElementById('puntaje2')
 const answerButtonsElement =  document.getElementById('answer-buttons')
 const questionImage = document.getElementById("img-question")
 
-startButton.addEventListener('click',startGame)
+//startButton.addEventListener('click',startGame)
 nextButton.addEventListener('click',() => {
     currentQuestionIndex ++;
     setNextQuestion();
@@ -83,7 +90,7 @@ function startGame(){
 	console.log("Esto es el wschanel: ",comunicationWS);
     console.log('Iniciando');
     startButton.classList.add('hide');
-    shuffleQuestions = questions.sort(() => Math.random() - .5);
+    //shuffleQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
     questionContainerElement.classList.remove('hide');
     setNextQuestion(false);
@@ -92,7 +99,8 @@ function startGame(){
 
 function setNextQuestion(){
     resetState();
-    showQuestion(shuffleQuestions[currentQuestionIndex])
+    //showQuestion(shuffleQuestions[currentQuestionIndex])
+    showQuestion(questions[currentQuestionIndex])
 }
 
 function resetState(){
@@ -155,8 +163,12 @@ function selectAnswer(e){
     	 button.removeEventListener('click', selectAnswer);
     })
  
-    if(shuffleQuestions.length > currentQuestionIndex +1){
-        nextButton.classList.remove('hide')
+    if(questions.length > currentQuestionIndex +1){    //if(shuffleQuestions.length > currentQuestionIndex +1){
+    	//nextButton.addEventListener('click',() => {
+    		currentQuestionIndex ++;
+    	    //setNextQuestion();
+    	//})
+        //nextButton.classList.remove('hide')
     } 
     else{
         startButton.innerText = "Restart";
@@ -181,5 +193,8 @@ function clearStatusClass(element){
     element.classList.remove('correct')
     element.classList.remove('wrong')
 }
+
+window.onload = startGame;
+
 
 
